@@ -28,7 +28,7 @@ def python():
 # static routes
 @get('/static/<filename:re:.*\.css>')
 def stylesheets(filename):
-    return static_file(filename, root=aux_dirname+',/static/css')
+    return static_file(filename, root=aux_dirname+'/static/css')
 
 @get('/static/<filename:re:.*\.js>')
 def javascripts(filename):
