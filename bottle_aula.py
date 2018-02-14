@@ -7,7 +7,9 @@ import os, sys
 
 TEMPLATE_PATH.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "views")))
 
-dirname = os.path.dirname(sys.argv[0])
+#aux_dirname = os.path.dirname(sys.argv[0])
+aux_dirname=os.path.abspath(os.path.join(os.path.dirname(__file__)))
+
 
 #html = '<center><h1> Olá </h1></center>'
 '''
@@ -26,22 +28,21 @@ def python():
 # static routes
 @get('/static/<filename:re:.*\.css>')
 def stylesheets(filename):
-    return static_file(filename, root=dirname+'/static/css')
+    return static_file(filename, root=aux_dirname+',/static/css')
 
 @get('/static/<filename:re:.*\.js>')
 def javascripts(filename):
-    return static_file(filename, root=dirname+'/static/js')
+    return static_file(filename, root=aux_dirname+'/static/js')
 
 @get('/static/<filename:re:.*\.(jpg|png|gif|ico)>')
 def images(filename):
-    return static_file(filename, root=dirname+'/static/img')
+    return static_file(filename, root=aux_dirname+'/static/img')
 
 @get('/static/<filename:re:.*\.(eot|ttf|woff|svg)>')
 def fonts(filename):
-    return static_file(filename, root=dirname+'/static/fonts')
+    return static_file(filename, root=aux_dirname+'/static/fonts')
 
-
-@route('/login') # @get('/login')
+@route('/') # @get('/')
 def login():
     return template('login')
 
@@ -52,7 +53,7 @@ def check_login(username, password):
     return False
 
 
-@route('/login', method='POST') # @post('/login')
+@route('/', method='POST') # @post('/')
 def acao_login():
     username = request.forms.get('username')
     password = request.forms.get('password')
@@ -63,5 +64,8 @@ def error404(error):
     return template('pagina404')
 
 if __name__ == '__main__':
-    run(host='localhost', port=8080, debug=True, reloader=True) # Quando for colocar em produção, Debug = False
+    if os.environ.get('APP_LOCATION') == 'heroku':
+        run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    else:
+        run(host='localhost', port=8080, debug=True, reloader=True) # Quando for colocar em produção, Debug = False
 
