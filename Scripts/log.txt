@@ -1,0 +1,3 @@
+Collecting SQLAlchemy
+Installing collected packages: SQLAlchemy
+Successfully installed SQLAlchemy-1.2.2

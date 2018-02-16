@@ -1,1 +1,1 @@
-web: python bottle_aula.py
+web: python run.py
