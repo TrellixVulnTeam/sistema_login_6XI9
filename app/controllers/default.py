@@ -1,4 +1,5 @@
 from app import app
+from app.models.tables import User
 from bottle import request, template
 from bottle import static_file
 from bottle import error
@@ -20,19 +21,19 @@ def python():
 # static routes
 @app.get('/static/<filename:re:.*\.css>')
 def stylesheets(filename):
-    return static_file(filename, root=aux_dirname+'/static/css')
+    return static_file(filename, root='app/static/css')
 
 @app.get('/static/<filename:re:.*\.js>')
 def javascripts(filename):
-    return static_file(filename, root=aux_dirname+'/static/js')
+    return static_file(filename, root='app/static/js')
 
 @app.get('/static/<filename:re:.*\.(jpg|png|gif|ico)>')
 def images(filename):
-    return static_file(filename, root=aux_dirname+'/static/img')
+    return static_file(filename, root='app/static/img')
 
 @app.get('/static/<filename:re:.*\.(eot|ttf|woff|svg)>')
 def fonts(filename):
-    return static_file(filename, root=aux_dirname+'/static/fonts')
+    return static_file(filename, root='app/static/fonts')
 
 @app.route('/') # @get('/')
 def login():
@@ -43,10 +44,11 @@ def cadastro():
     return template('cadastro')
 
 @app.route('/cadastro', method='POST')
-def acao_cadastro():
+def acao_cadastro(db):
     username = request.forms.get('username')
     password = request.forms.get('password')
-    insert_user(username, password)
+    new_user = User(username,password)
+    db.add(new_user)
     return template('verificacao_cadastro', nome=username)
 
 @app.route('/', method='POST') # @post('/')
