@@ -2,13 +2,25 @@
 <html>
 <head>
 	<title> {{title or 'Sistema Login'}} </title>
+
 	<link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/static/login.css">
+
+	<link rel="icon" href="/static/icon-login.png">
+
 	<link type="text/javascript" charset="utf-8" src="/static/login.js">
 </head>
+
 <body>
-	<center>	
-		{{ !base }}
-	</center>
+	<div class="container">
+		<div class="row vertical-offset-100">
+			<div class="col-md-4 col-md-offset-4">
+				<div class="panel panel-default">
+					{{ !base }}
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
+
 </html>
